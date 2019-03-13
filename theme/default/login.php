@@ -21,7 +21,6 @@
 
       <div class="form-group has-feedback">
         <select name="jenis" class="form-control">
-          <option value="">-- Login sebagai --</option>
           <option value="doskar">Dosen/Karyawan</option>
           <option value="mhs">Mahasiswa</option>
         </select>
