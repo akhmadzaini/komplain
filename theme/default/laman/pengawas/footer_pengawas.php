@@ -26,7 +26,11 @@
 	$(function(){
 
 		// inisiasi select2
-		$('.select2').select2();
+		$('select:not(.normal)').each(function () {
+        $(this).select2({
+            dropdownParent: $(this).parent()
+        });
+    });
 
 		// inisiasi date range picker
 		$('.tgl-range').daterangepicker({
