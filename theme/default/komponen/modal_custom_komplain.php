@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-custom-komplain" style="display: none;">
+<div class="modal fade" id="modal-custom-komplain" style="display: none; overflow:hidden;">
   <div class="modal-dialog modal-lg">
     
     <form action="" id="frm-custom-komplain">
