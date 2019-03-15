@@ -17,7 +17,7 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="row">
+    <div class="row hidden-print" >
       <div class="col-md-12">    
         <div class="box box-primary">
           <div class="box-header with-border">
@@ -62,7 +62,7 @@
        <!-- /.box --> 
     </div>
     
-    <div class="row">
+    <div class="row hidden-print" >
       <div class="col-xs-3">
         <!-- small box -->
         <div class="small-box bg-aqua">

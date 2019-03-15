@@ -34,8 +34,8 @@
                       </div>
 
                       <div class="form-group">
-                        <label>Kepala Unit</label>
-                        <?=combo_doskar()?>
+                        <label>Anggota Unit</label>
+                        <?=combo_doskar('multi')?>
                       </div>
 
                       <div class="form-group">
@@ -165,12 +165,21 @@
     $(document).on('change', '#frm-pengaturan-unit select[name="unit_id"]', function(){
       $('.overlay').show();
       var id = $(this).val();
-      var url = '<?=site_url("json/get_detail_unit")?>';
-      $.post(url, {id : id}, function(hasil){
-        $('#frm-pengaturan-unit select[name="doskar"]').val(hasil.doskar_id).trigger('change');
+
+      
+      $.post('<?=site_url("json/get_detail_unit")?>', {id : id}, function(hasil){
+        // munculkan anggota unit
+        $.post('<?=site_url("json/get_acl")?>', {id : id}, function(hasil){
+          var anggota = [];
+          $.each(hasil, function(k, v){
+            anggota.push(v.doskar_id);
+          });
+          $('#frm-pengaturan-unit select[name="doskar[]"]').val(anggota).trigger('change');
+          $('.overlay').hide();
+        });
+
         $('#frm-pengaturan-unit input[name="ext"]').val(hasil.ext);
         refreshTabel(id);
-        $('.overlay').hide();
       });
       $('input[name="unit_id"]').val(id);
     });
@@ -186,7 +195,6 @@
         if(hasil == 'sukses'){
           $('.overlay').hide();
           alert('Data telah tersimpan');
-          // $('#modal-pengaturan-unit').modal('hide');
         }
       });
     });

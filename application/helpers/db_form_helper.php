@@ -46,16 +46,23 @@ function combo_status(){
 	</select>';
 }
 
-function combo_doskar(){
+function combo_doskar($option=''){
+	// jika multi
+	if(strpos($option, 'multi') >= 0){
+		$multi = 'name="doskar[]" multiple="multiple"';
+	}else{
+		$multi = 'name="doskar"';
+	}
+
 	$CI =& get_instance();
 	$CI->db->select('id');
 	$CI->db->select('nama');
 	$CI->db->order_by('nama');
 	$q = $CI->db->get('doskar');
-	$rtr = '<select name="doskar" class="form-control select2" style="width: 100%;"  required>
+	$rtr = '<select class="form-control select2" style="width: 100%;" '. $multi .' required>
 			<option value="">-- Pilih salah satu pengguna --</option>';
 	foreach($q->result_array() as $r){
-		$rtr .= "<option value=\"$r[id]\">$r[nama]</option>";
+		$rtr .= "<option value=\"$r[id]\">$r[nama] ($r[id])</option>";
 	}
 	$rtr .= '</select>';
 	return $rtr;

@@ -330,16 +330,28 @@ class Json extends CI_controller{
 		echo json_encode($data);		
 	}
 
+	function get_acl() {
+		$id = $this->input->post('id');
+		$sql = "SELECT a.doskar_id, b.nama
+				FROM acl a
+				LEFT JOIN doskar b ON a.doskar_id = b.id
+				WHERE a.unit_id = '$id' AND akses = 2";
+		$data = $this->db->query($sql)->result_array();
+		header('Content-Type: application/json');
+		echo json_encode($data);
+	}
+
 	function set_detail_unit(){
 		$post = $this->input->post();
 		$sql = "DELETE FROM acl WHERE unit_id = '$post[unit_id]'";
 		$this->db->simple_query($sql);
 		if(!empty($post['doskar'])){
-			$sql = "DELETE FROM acl WHERE doskar_id = '$post[doskar]'";	
-			$this->db->simple_query($sql);
-			$sql = "INSERT INTO acl (doskar_id, akses, unit_id) VALUES 
-					('$post[doskar]', 2, '$post[unit_id]')";
-			$this->db->simple_query($sql);
+			// sisipkan acl
+			foreach($post['doskar'] as $doskar_id){
+				$sql = "INSERT INTO acl (doskar_id, akses, unit_id) VALUES 
+							('$doskar_id', 2, '$post[unit_id]')";
+				$this->db->simple_query($sql);
+			}
 		}
 		if(!empty($post['ext'])){
 			$sql = "UPDATE unit SET ext = '$post[ext]' 
