@@ -211,6 +211,7 @@ class Json extends CI_controller{
 		$this->db->select('DATE_FORMAT(ex_tgl, \'%d/%m/%Y\') AS ex_tgl', FALSE);
 		$this->db->select('ex_pic_nama');
 		$this->db->select('ex_isi');
+		$this->db->select('status');
 		$this->db->where('id', $data['id']);
 		$q = $this->db->get('komplain_doskar');
 		$data = $q->row_array();

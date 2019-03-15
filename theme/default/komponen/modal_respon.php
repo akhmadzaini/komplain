@@ -81,8 +81,13 @@
         $('#frm-respon input[name="tgl"]').val(hasil.ex_tgl);
         $('#frm-respon select[name="pic"]').val(hasil.ex_pic_nama).trigger('change');
         $('#frm-respon textarea[name="isi"]').val(hasil.ex_isi);
+        // disable tombol tangani komplain jika sudah tertutup
+        if(hasil.status == 2){
+          $('.btn-ajukan').attr('disabled','disabled');
+        }else{
+          $('.btn-ajukan').removeAttr('disabled');
+        }
         $('.overlay').hide();
-        // console.log(hasil);
       });
     });
 
