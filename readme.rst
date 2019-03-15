@@ -18,7 +18,6 @@ issues, as well as missing features.
 ************
 Installation
 ************
-
 Extract databasse.sql, atur konfig sesuai server db yang ada.
 
 ***************
