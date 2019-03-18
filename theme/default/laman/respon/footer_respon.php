@@ -66,7 +66,9 @@
 						btnSupport = '<button class="btn btn-flat btn-xs btn-primary btn-respon" data-id="'+ v.id +'" title="Tangani komplain ini" data-disabled="'+ disabled +'"><i class="fa fa-support"></i></button>';
 					<?php endif?>
 					var btnGetKomplain = '<button class="btn btn-flat btn-xs btn-primary btn-get-komplain" data-id="'+ v.id +'" data-tabel="<?=$tabel?>" title="Periksa komplain ini" ><i class="fa fa-eye"></i></button>';
-					var btnRespon = btnSupport + ' ' + btnGetKomplain;
+					var tutupKomplain = '<button class="btn btn-flat btn-xs btn-primary btn-tutup-komplain" data-id_komplain="'+ v.id +'" data-tabel="<?=$tabel?>" title="Tutup komplain ini" '+ disabled +'><i class="fa fa-check-circle"></i></button>';
+
+					var btnRespon = btnSupport + ' ' + btnGetKomplain + ' ' + tutupKomplain;
 					tabel.row.add([(n + '.'), v.pemohon, v.kategori, v.tgl, status[v.status], btnRespon]);					
 
 				});
@@ -75,6 +77,18 @@
 				$('.overlay').hide();
 				refreshSumm();
 			});
+		});
+
+		$(document).on('click', '.btn-tutup-komplain', function(){
+			var data = $(this).data();
+			var tutup = confirm("Yakin akan menutup komplain ini ?");
+			if(tutup){
+				var url = '<?=site_url('json/tutup_komplain')?>';
+				$.post(url, data, function(hasil){
+					refreshSumm();
+					$('#frm-filter').trigger('submit');
+				});
+			}
 		});
 
 		var refreshSumm = function(){		

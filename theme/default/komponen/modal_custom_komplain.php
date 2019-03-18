@@ -120,6 +120,7 @@
           $('#frm-filter').trigger('submit');
           alert('Pengajuan ini telah tersimpan dalam database, selanjutnya silahkan menghubungi klien untuk segera mendapatkan rating dan ulasan');
           $('.overlay').hide();
+          $('#modal-custom-komplain').modal('hide');
         }
       });
     });

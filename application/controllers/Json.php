@@ -206,6 +206,18 @@ class Json extends CI_controller{
 		echo json_encode($data);
 	}
 
+	function tutup_komplain(){
+		$data = $this->input->post();
+		$this->db->set('tgp_tgl', 'NOW()', FALSE);
+		$this->db->set('status', 2);
+		$this->db->set('tutup_oleh', $this->session->login);
+		$this->db->where('id', $data['id_komplain']);
+		$this->db->update($data['tabel']);
+		$data = array('affected_rows' => $this->db->affected_rows());
+		header('Content-Type: application/json');
+		echo json_encode($data);
+	}
+
 	function get_tangani_komplain(){
 		$data = $this->input->post();
 		$this->db->select('DATE_FORMAT(ex_tgl, \'%d/%m/%Y\') AS ex_tgl', FALSE);

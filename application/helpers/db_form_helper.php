@@ -48,10 +48,10 @@ function combo_status(){
 
 function combo_doskar($option=''){
 	// jika multi
-	if(strpos($option, 'multi') >= 0){
-		$multi = 'name="doskar[]" multiple="multiple"';
-	}else{
+	if(strpos($option, 'multi') === FALSE){
 		$multi = 'name="doskar"';
+	}else{
+		$multi = 'name="doskar[]" multiple="multiple"';
 	}
 
 	$CI =& get_instance();
