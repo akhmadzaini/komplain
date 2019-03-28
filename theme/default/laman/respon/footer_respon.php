@@ -54,21 +54,24 @@
 				status[0] = '<span class="label label-danger"><i class="fa fa-folder-open" title="Terbuka"></i> Terbuka</span>',
 				status[1] = '<span class="label label-warning"><i class="fa fa-hourglass-2" title="Proses"></i> Proses</span>',
 				status[2] = '<span class="label label-success"><i class="fa fa-check-circle" title="Tertutup"></i> Tertutup</span>',
+				status[3] = '<span class="label label-default"><i class="fa fa-close" title="Batal"></i> Batal</span>',
 
 				tabel.clear();
 
 				var n = 0;
 				$.each(hasil, function(i, v){
 					n++;
-					var disabled = (v.status == 2) ? 'disabled' : '';
+          // jika komplain sudah pernah ditangani atau dibatalkan, maka matikan penanganan komplain 
+					var disabled = (v.status == 2 || v.status == 3) ? 'disabled' : '';
 					var btnSupport = '';
 					<?php if($tabel == 'komplain_doskar'):?>
 						btnSupport = '<button class="btn btn-flat btn-xs btn-primary btn-respon" data-id="'+ v.id +'" title="Tangani komplain ini" data-disabled="'+ disabled +'"><i class="fa fa-support"></i></button>';
 					<?php endif?>
 					var btnGetKomplain = '<button class="btn btn-flat btn-xs btn-primary btn-get-komplain" data-id="'+ v.id +'" data-tabel="<?=$tabel?>" title="Periksa komplain ini" ><i class="fa fa-eye"></i></button>';
 					var tutupKomplain = '<button class="btn btn-flat btn-xs btn-primary btn-tutup-komplain" data-id_komplain="'+ v.id +'" data-tabel="<?=$tabel?>" title="Tutup komplain ini" '+ disabled +'><i class="fa fa-check-circle"></i></button>';
+					var batalKomplain = '<button class="btn btn-flat btn-xs btn-primary btn-batal-komplain" data-pemohon="'+ v.pemohon +'" data-id_komplain="'+ v.id +'" data-tabel="<?=$tabel?>" title="Batalkan komplain ini" '+ disabled +'><i class="fa fa-close"></i></button>';
 
-					var btnRespon = btnSupport + ' ' + btnGetKomplain + ' ' + tutupKomplain;
+					var btnRespon = btnSupport + ' ' + btnGetKomplain + ' ' + tutupKomplain + ' ' + batalKomplain;
 					tabel.row.add([(n + '.'), v.pemohon, v.kategori, v.tgl, status[v.status], btnRespon]);					
 
 				});
@@ -90,6 +93,19 @@
 				});
 			}
 		});
+
+    $(document).on('click', '.btn-batal-komplain', function() {
+      var data = $(this).data();
+      var batal = confirm('Tindakan ini tidak dapat dipullihkan. Anda yakin ingin membatalkan komplain dari '+ data.pemohon +' ?');
+      if(batal){
+        $('.overlay').show();
+        var url = '<?=site_url('json/batal_komplain')?>';
+        $.post(url, data, function(hasil){
+					$('#frm-filter').trigger('submit');
+          $('.overlay').hide();
+        });
+      }
+    });
 
 		var refreshSumm = function(){		
 			// menghitung summary komplain

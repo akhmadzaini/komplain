@@ -216,6 +216,16 @@ class Json extends CI_controller{
 		$data = array('affected_rows' => $this->db->affected_rows());
 		header('Content-Type: application/json');
 		echo json_encode($data);
+  }
+  
+	function batal_komplain(){
+		$data = $this->input->post();
+		$this->db->set('status', 3);
+		$this->db->where('id', $data['id_komplain']);
+		$this->db->update($data['tabel']);
+		$data = array('affected_rows' => $this->db->affected_rows());
+		header('Content-Type: application/json');
+		echo json_encode($data);
 	}
 
 	function get_tangani_komplain(){
